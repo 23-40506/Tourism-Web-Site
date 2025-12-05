@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyager | Luxury Travel Experiences</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--gradient);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #3d8b40;
+            transform: translateY(-3px);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            min-height: 80vh;
+            gap: 4rem;
+            margin-bottom: 6rem;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transform: perspective(1000px) rotateY(-15deg);
+            transition: transform 0.5s ease;
+        }
+
+        .hero-image:hover img {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .login-container {
+            background: white;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .login-container {
+            transform: translateY(0);
+        }
+
+        .login-header {
+            background: var(--gradient);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .login-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-form {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox input {
+            width: 18px;
+            height: 18px;
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .login-footer {
+            text-align: center;
+            padding: 1rem 2rem 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        .login-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Features Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 6rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        /* Destinations */
+        .destinations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 6rem;
+        }
+
+        .destination-card {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            height: 300px;
+            box-shadow: var(--shadow);
+        }
+
+        .destination-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .destination-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .destination-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 2rem;
+            color: white;
+        }
+
+        .destination-overlay h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .destination-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        /* Booking Modal */
+        .booking-modal {
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .booking-form {
+            padding: 2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .booking-summary {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-total {
+            border-top: 2px solid #ddd;
+            padding-top: 1rem;
+            margin-top: 1rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-header {
+            background: var(--gradient);
+            padding: 3rem;
+            border-radius: var(--radius);
+            color: white;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .user-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .bookings-section {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .bookings-section h2 {
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .booking-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            align-items: center;
+            gap: 2rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .booking-item:last-child {
+            border-bottom: none;
+        }
+
+        .booking-image {
+            width: 100px;
+            height: 80px;
+            border-radius: var(--radius);
+            object-fit: cover;
+        }
+
+        .booking-info h4 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-info p {
+            color: #666;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .booking-status {
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-confirmed {
+            background: #e8f5e9;
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: #fff3e0;
+            color: var(--warning);
+        }
+
+        .status-cancelled {
+            background: #ffebee;
+            color: #f44336;
+        }
+
+        .empty-bookings {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-bookings i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Alert */
+        .alert {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            background: white;
+            box-shadow: var(--shadow);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .alert.show {
+            transform: translateX(0);
+        }
+
+        .alert.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .alert.error {
+            border-left: 4px solid #f44336;
+        }
+
+        .alert i {
+            font-size: 1.5rem;
+        }
+
+        .alert.success i {
+            color: var(--success);
+        }
+
+        .alert.error i {
+            color: #f44336;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 6rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-image img {
+                transform: none;
+            }
+            
+            .features, .destinations {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .booking-actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-compass"></i>
+                Voyager
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#tours">Tours</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button class="btn btn-primary" id="signupBtn">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login/Signup Modal -->
+    <div class="modal" id="loginModal">
+        <div class="login-container">
+            <div class="login-header">
+                <button class="close-modal" id="closeModal">&times;</button>
+                <h2 id="modalTitle">Welcome Back</h2>
+                <p>Sign in to your account</p>
+            </div>
+            <form class="login-form" id="authForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                </div>
+                <div class="form-options">
+                    <div class="checkbox">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password" id="forgotPassword">Forgot password?</a>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">Sign In</button>
+            </form>
+            <div class="login-footer">
+                <p id="switchText">Don't have an account? <a href="#" id="switchForm">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="bookingModal">
+        <div class="login-container booking-modal">
+            <div class="login-header">
+                <button class="close-modal" id="closeBookingModal">&times;</button>
+                <h2 id="bookingModalTitle">Book Your Trip</h2>
+                <p>Complete your booking details</p>
+            </div>
+            <form class="booking-form" id="bookingForm">
+                <div class="booking-summary">
+                    <div class="summary-item">
+                        <span>Destination:</span>
+                        <span id="summaryDestination">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Duration:</span>
+                        <span id="summaryDuration">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Price per person:</span>
+                        <span id="summaryPrice">-</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total:</span>
+                        <span id="summaryTotal">-</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="travelers">Number of Travelers</label>
+                        <select id="travelers" class="form-control" required>
+                            <option value="1">1 Traveler</option>
+                            <option value="2" selected>2 Travelers</option>
+                            <option value="3">3 Travelers</option>
+                            <option value="4">4 Travelers</option>
+                            <option value="5">5 Travelers</option>
+                            <option value="6">6+ Travelers</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" id="startDate" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="bookingFullName" class="form-control" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="bookingEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="specialRequests">Special Requests</label>
+                    <textarea id="specialRequests" class="form-control" rows="3" placeholder="Any special requirements or requests"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="confirmBookingBtn">
+                    <i class="fas fa-check"></i> Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alertContainer"></div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Home Section (Visible when not logged in) -->
+        <div id="homeSection">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Discover Your Next Adventure</h1>
+                    <p>Experience the world's most breathtaking destinations with our curated travel experiences. From tropical paradises to cultural wonders, find your perfect escape.</p>
+                    <button class="btn btn-primary" id="exploreBtn">
+                        <i class="fas fa-plane"></i> Start Exploring
+                    </button>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1174&q=80" alt="Beautiful Destination">
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="section-title">
+                    <h2>Why Choose Voyager?</h2>
+                    <p>We provide exceptional travel experiences tailored to your preferences</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h3>Global Destinations</h3>
+                    <p>Access to over 500 destinations worldwide with local expert guides.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Safe & Secure</h3>
+                    <p>Your safety is our priority with 24/7 support and comprehensive insurance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Personalized Experiences</h3>
+                    <p>Custom itineraries designed to match your interests and preferences.</p>
+                </div>
+            </section>
+
+            <section class="destinations" id="destinations">
+                <div class="section-title">
+                    <h2>Popular Destinations</h2>
+                    <p>Explore our most sought-after travel destinations</p>
+                </div>
+                <!-- Destinations will be dynamically loaded here -->
+            </section>
+        </div>
+
+        <!-- Dashboard (Visible when logged in) -->
+        <div class="dashboard" id="dashboard">
+            <div class="user-header">
+                <h1 id="userGreeting">Welcome back, Explorer!</h1>
+                <p>Your next adventure awaits</p>
+            </div>
+
+            <div class="user-stats">
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3 id="upcomingTrips">0</h3>
+                    <p>Upcoming Trips</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-passport"></i>
+                    <h3 id="visitedCountries">0</h3>
+                    <p>Countries Visited</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <h3 id="travelPoints">0</h3>
+                    <p>Travel Points</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-ticket-alt"></i>
+                    <h3 id="pendingBookings">0</h3>
+                    <p>Pending Bookings</p>
+                </div>
+            </div>
+
+            <div class="bookings-section">
+                <h2><i class="fas fa-suitcase"></i> Your Bookings</h2>
+                <div id="userBookings">
+                    <!-- Bookings will be dynamically loaded here -->
+                </div>
+            </div>
+
+            <div class="destinations" id="dashboardDestinations">
+                <div class="section-title">
+                    <h2>Explore More Destinations</h2>
+                    <p>Discover your next adventure</p>
+                </div>
+                <!-- Destinations will be dynamically loaded here -->
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <button class="btn btn-primary" id="bookNewTrip">
+                    <i class="fas fa-plus"></i> Book New Trip
+                </button>
+                <button class="btn btn-outline" id="logoutBtn" style="margin-left: 1rem;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Voyager</h3>
+                <p>Creating unforgettable travel experiences since 2010. Your journey begins with us.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="#tours">Tour Packages</a></li>
+                    <li><a href="#about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Travel Street</li>
+                    <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                    <li><i class="fas fa-envelope"></i> info@voyager.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 Voyager Travel. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // State Management
+        let currentUser = JSON.parse(localStorage.getItem('voyagerUser')) || null;
+        let users = JSON.parse(localStorage.getItem('voyagerUsers')) || [
+            { email: 'demo@voyager.com', password: 'demo123', name: 'Demo User' }
+        ];
+        let userBookings = JSON.parse(localStorage.getItem('voyagerBookings')) || [];
+        let isLoginMode = true;
+        let currentBookingDestination = null;
+
+        // Sample Destinations Data
+        const destinations = [
+            {
+                id: 1,
+                name: "Anilao",
+                description: "Tropical paradise with stunning beaches and vibrant culture",
+                image: "anilaolao.jpg",
+                price: 1299,
+                duration: "7 days",
+                country: "Indonesia",
+                highlights: ["Beaches", "Temples", "Rice Terraces", "Culture"]
+            },
+            {
+                id: 2,
+                name: "Buceo Anilao",
+                description: "Breathtaking mountain landscapes and charming villages",
+                image: "balanoy.webp",
+                price: 1999,
+                duration: "10 days",
+                country: "Switzerland",
+                highlights: ["Mountains", "Skiing", "Lakes", "Villages"]
+            },
+            {
+                id: 3,
+                name: "Camp",
+                description: "Modern city with rich cultural heritage and amazing cuisine",
+                image: "camp.jpg",
+                price: 1799,
+                duration: "8 days",
+                country: "Japan",
+                highlights: ["Culture", "Food", "Technology", "History"]
+            },
+            {
+                id: 4,
+                name: "Matutungil Beach",
+                description: "Stunning white buildings with blue domes overlooking the Aegean Sea",
+                image: "matutungil.jpg",
+                price: 1599,
+                duration: "6 days",
+                country: "Greece",
+                highlights: ["Beaches", "Sunset Views", "History", "Cuisine"]
+            },
+            {
+                id: 5,
+                name: "Isla Sumbrero Beach",
+                description: "The city of love with iconic landmarks and world-class art",
+                image: "isla.jpg",
+                price: 1499,
+                duration: "5 days",
+                country: "France",
+                highlights: ["Art", "Architecture", "Food", "Shopping"]
+            },
+            {
+                id: 6,
+                name: "Mount Gulugod Baboy",
+                description: "The city that never sleeps with endless entertainment options",
+                image: "gulugodgod.jpg",
+                price: 1699,
+                duration: "7 days",
+                country: "USA",
+                highlights: ["Broadway", "Museums", "Shopping", "Food"]
+            }
+        ];
+
+        // DOM Elements
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const loginModal = document.getElementById('loginModal');
+        const bookingModal = document.getElementById('bookingModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeBookingModal = document.getElementById('closeBookingModal');
+        const authForm = document.getElementById('authForm');
+        const bookingForm = document.getElementById('bookingForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const bookingModalTitle = document.getElementById('bookingModalTitle');
+        const switchForm = document.getElementById('switchForm');
+        const switchText = document.getElementById('switchText');
+        const submitBtn = document.getElementById('submitBtn');
+        const homeSection = document.getElementById('homeSection');
+        const dashboard = document.getElementById('dashboard');
+        const userGreeting = document.getElementById('userGreeting');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const exploreBtn = document.getElementById('exploreBtn');
+        const forgotPassword = document.getElementById('forgotPassword');
+        const destinationsContainer = document.getElementById('destinations');
+        const dashboardDestinations = document.getElementById('dashboardDestinations');
+        const userBookingsContainer = document.getElementById('userBookings');
+        const travelersSelect = document.getElementById('travelers');
+        const startDateInput = document.getElementById('startDate');
+        const confirmBookingBtn = document.getElementById('confirmBookingBtn');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+            loadDestinations();
+            setMinStartDate();
+            
+            // Add event listener for travelers change
+            travelersSelect.addEventListener('change', updateBookingSummary);
+        });
+
+        // Set minimum start date to tomorrow
+        function setMinStartDate() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            startDateInput.min = tomorrow.toISOString().split('T')[0];
+            
+            // Set default to 30 days from now
+            const defaultDate = new Date();
+            defaultDate.setDate(defaultDate.getDate() + 30);
+            startDateInput.value = defaultDate.toISOString().split('T')[0];
+        }
+
+        // Load destinations
+        function loadDestinations() {
+            // Load for home page
+            if (destinationsContainer) {
+                destinationsContainer.innerHTML = destinations.map(destination => `
+                    <div class="destination-card">
+                        <img src="${destination.image}" alt="${destination.name}">
+                        <div class="destination-overlay">
+                            <h3>${destination.name}</h3>
+                            <p>${destination.description}</p>
+                            <div class="destination-actions">
+                                <span><i class="fas fa-clock"></i> ${destination.duration}</span>
+                                <span><i class="fas fa-dollar-sign"></i> ${destination.price}</span>
+                                ${currentUser ? 
+                                    `<button class="btn btn-success btn-book" data-id="${destination.id}">
+                                        <i class="fas fa-bookmark"></i> Book Now
+                                    </button>` : 
+                                    `<button class="btn btn-outline" onclick="showLoginForBooking(${destination.id})">
+                                        <i class="fas fa-sign-in-alt"></i> Login to Book
+                                    </button>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Add event listeners to booking buttons
+                document.querySelectorAll('.btn-book').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const destinationId = parseInt(e.target.closest('.btn-book').dataset.id);
+                        openBookingModal(destinationId);
+                    });
+                });
+            }
+
+            // Load for dashboard
+            if (dashboardDestinations) {
+                dashboardDestinations.innerHTML += destinations.map(destination => `
+                    <div class="destination-card">
+                        <img src="${destination.image}" alt="${destination.name}">
+                        <div class="destination-overlay">
+                            <h3>${destination.name}</h3>
+                            <p>${destination.description}</p>
+                            <div class="destination-actions">
+                                <span><i class="fas fa-clock"></i> ${destination.duration}</span>
+                                <span><i class="fas fa-dollar-sign"></i> ${destination.price}</span>
+                                <button class="btn btn-success btn-book" data-id="${destination.id}">
+                                    <i class="fas fa-bookmark"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Add event listeners to booking buttons in dashboard
+                document.querySelectorAll('.btn-book').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const destinationId = parseInt(e.target.closest('.btn-book').dataset.id);
+                        openBookingModal(destinationId);
+                    });
+                });
+            }
+        }
+
+        // Event Listeners
+        loginBtn.addEventListener('click', () => {
+            isLoginMode = true;
+            updateModal();
+            loginModal.classList.add('active');
+        });
+
+        signupBtn.addEventListener('click', () => {
+            isLoginMode = false;
+            updateModal();
+            loginModal.classList.add('active');
+        });
+
+        closeModal.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+        });
+
+        closeBookingModal.addEventListener('click', () => {
+            bookingModal.classList.remove('active');
+        });
+
+        exploreBtn.addEventListener('click', () => {
+            if (!currentUser) {
+                isLoginMode = true;
+                updateModal();
+                loginModal.classList.add('active');
+            } else {
+                showAlert('Welcome back! Start browsing our destinations.', 'success');
+            }
+        });
+
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (isLoginMode) {
+                loginUser();
+            } else {
+                registerUser();
+            }
+        });
+
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            confirmBooking();
+        });
+
+        switchForm.addEventListener('click', (e) => {
+            e.preventDefault();
+            isLoginMode = !isLoginMode;
+            updateModal();
+        });
+
+        logoutBtn.addEventListener('click', logoutUser);
+
+        forgotPassword.addEventListener('click', (e) => {
+            e.preventDefault();
+            showAlert('Password reset instructions have been sent to your email.', 'success');
+            loginModal.classList.remove('active');
+        });
+
+        // Close modal when clicking outside
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('active');
+            }
+        });
+
+        bookingModal.addEventListener('click', (e) => {
+            if (e.target === bookingModal) {
+                bookingModal.classList.remove('active');
+            }
+        });
+
+        // Functions
+        function updateModal() {
+            if (isLoginMode) {
+                modalTitle.textContent = 'Welcome Back';
+                submitBtn.textContent = 'Sign In';
+                switchText.innerHTML = 'Don\'t have an account? <a href="#" id="switchForm">Sign up</a>';
+            } else {
+                modalTitle.textContent = 'Create Account';
+                submitBtn.textContent = 'Sign Up';
+                switchText.innerHTML = 'Already have an account? <a href="#" id="switchForm">Sign in</a>';
+            }
+            
+            // Reattach event listener after updating content
+            document.getElementById('switchForm').addEventListener('click', (e) => {
+                e.preventDefault();
+                isLoginMode = !isLoginMode;
+                updateModal();
+            });
+        }
+
+        function loginUser() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+
+            // Demo login for testing
+            if (email === 'demo@voyager.com' && password === 'demo123') {
+                currentUser = { 
+                    email, 
+                    name: 'Demo User',
+                    id: 'demo123'
+                };
+                localStorage.setItem('voyagerUser', JSON.stringify(currentUser));
+                loadUserBookings();
+                showAlert('Welcome back, Demo User!', 'success');
+                updateUI();
+                loginModal.classList.remove('active');
+                return;
+            }
+
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = { ...user, id: Date.now().toString() };
+                if (remember) {
+                    localStorage.setItem('voyagerUser', JSON.stringify(currentUser));
+                }
+                loadUserBookings();
+                showAlert(`Welcome back, ${user.name}!`, 'success');
+                updateUI();
+                loginModal.classList.remove('active');
+            } else {
+                showAlert('Invalid email or password. Try demo@voyager.com / demo123', 'error');
+            }
+        }
+
+        function registerUser() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const name = email.split('@')[0]; // Simple name generation
+
+            if (users.some(u => u.email === email)) {
+                showAlert('An account with this email already exists.', 'error');
+                return;
+            }
+
+            const newUser = { 
+                email, 
+                password, 
+                name, 
+                id: Date.now().toString() 
+            };
+            users.push(newUser);
+            localStorage.setItem('voyagerUsers', JSON.stringify(users));
+            
+            currentUser = newUser;
+            localStorage.setItem('voyagerUser', JSON.stringify(currentUser));
+            loadUserBookings();
+            
+            showAlert(`Account created successfully! Welcome, ${name}.`, 'success');
+            updateUI();
+            loginModal.classList.remove('active');
+        }
+
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('voyagerUser');
+            showAlert('You have been logged out successfully.', 'success');
+            updateUI();
+        }
+
+        function updateUI() {
+            if (currentUser) {
+                // User is logged in
+                homeSection.style.display = 'none';
+                dashboard.style.display = 'block';
+                userGreeting.textContent = `Welcome back, ${currentUser.name}!`;
+                
+                // Update auth buttons
+                loginBtn.innerHTML = '<i class="fas fa-user"></i> Profile';
+                loginBtn.onclick = () => showAlert('Profile page coming soon!', 'success');
+                signupBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+                signupBtn.onclick = logoutUser;
+                
+                // Load user bookings
+                loadUserBookings();
+                updateStats();
+                
+            } else {
+                // User is not logged in
+                homeSection.style.display = 'block';
+                dashboard.style.display = 'none';
+                
+                // Update auth buttons
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+                loginBtn.onclick = () => {
+                    isLoginMode = true;
+                    updateModal();
+                    loginModal.classList.add('active');
+                };
+                signupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Sign Up';
+                signupBtn.onclick = () => {
+                    isLoginMode = false;
+                    updateModal();
+                    loginModal.classList.add('active');
+                };
+                
+                // Load destinations for home page
+                loadDestinations();
+            }
+        }
+
+        function showLoginForBooking(destinationId) {
+            isLoginMode = true;
+            updateModal();
+            loginModal.classList.add('active');
+            // Store the destination ID to book after login
+            sessionStorage.setItem('pendingBooking', destinationId);
+        }
+
+        function openBookingModal(destinationId) {
+            const destination = destinations.find(d => d.id === destinationId);
+            if (!destination) return;
+
+            currentBookingDestination = destination;
+            
+            // Update modal title
+            bookingModalTitle.textContent = `Book: ${destination.name}`;
+            
+            // Update summary
+            document.getElementById('summaryDestination').textContent = destination.name;
+            document.getElementById('summaryDuration').textContent = destination.duration;
+            document.getElementById('summaryPrice').textContent = `$${destination.price}`;
+            
+            // Auto-fill user info if logged in
+            if (currentUser) {
+                document.getElementById('bookingFullName').value = currentUser.name || '';
+                document.getElementById('bookingEmail').value = currentUser.email || '';
+            }
+            
+            // Update booking summary
+            updateBookingSummary();
+            
+            // Show modal
+            bookingModal.classList.add('active');
+        }
+
+        function updateBookingSummary() {
+            if (!currentBookingDestination) return;
+            
+            const travelers = parseInt(travelersSelect.value);
+            const totalPrice = currentBookingDestination.price * travelers;
+            
+            document.getElementById('summaryTotal').textContent = `$${totalPrice}`;
+        }
+
+        function confirmBooking() {
+            if (!currentUser || !currentBookingDestination) return;
+
+            const travelers = parseInt(travelersSelect.value);
+            const startDate = startDateInput.value;
+            const fullName = document.getElementById('bookingFullName').value;
+            const email = document.getElementById('bookingEmail').value;
+            const phone = document.getElementById('phone').value;
+            const specialRequests = document.getElementById('specialRequests').value;
+            const totalPrice = currentBookingDestination.price * travelers;
+
+            const bookingId = Date.now();
+            const booking = {
+                id: bookingId,
+                destinationId: currentBookingDestination.id,
+                destinationName: currentBookingDestination.name,
+                destinationImage: currentBookingDestination.image,
+                destinationCountry: currentBookingDestination.country,
+                travelers: travelers,
+                startDate: startDate,
+                endDate: calculateEndDate(startDate, currentBookingDestination.duration),
+                fullName: fullName,
+                email: email,
+                phone: phone,
+                specialRequests: specialRequests,
+                totalPrice: totalPrice,
+                status: 'confirmed',
+                bookingDate: new Date().toISOString(),
+                userId: currentUser.id
+            };
+
+            // Add booking to user's bookings
+            userBookings.push(booking);
+            localStorage.setItem('voyagerBookings', JSON.stringify(userBookings));
+
+            // Close modal and show success message
+            bookingModal.classList.remove('active');
+            showAlert(`Successfully booked ${currentBookingDestination.name} for ${travelers} traveler(s)!`, 'success');
+
+            // Update UI
+            loadUserBookings();
+            updateStats();
+            
+            // Reset form
+            bookingForm.reset();
+            currentBookingDestination = null;
+        }
+
+        function calculateEndDate(startDate, duration) {
+            const days = parseInt(duration.split(' ')[0]);
+            const endDate = new Date(startDate);
+            endDate.setDate(endDate.getDate() + days);
+            return endDate.toISOString().split('T')[0];
+        }
+
+        function loadUserBookings() {
+            if (!currentUser || !userBookingsContainer) return;
+
+            const userBookingsList = userBookings.filter(booking => booking.userId === currentUser.id);
+            
+            if (userBookingsList.length === 0) {
+                userBookingsContainer.innerHTML = `
+                    <div class="empty-bookings">
+                        <i class="fas fa-suitcase"></i>
+                        <h3>No Bookings Yet</h3>
+                        <p>Start your journey by booking your first trip!</p>
+                        <button class="btn btn-primary" onclick="loadDestinations()">
+                            <i class="fas fa-search"></i> Explore Destinations
+                        </button>
+                    </div>
+                `;
+            } else {
+                userBookingsContainer.innerHTML = userBookingsList.map(booking => {
+                    const destination = destinations.find(d => d.id === booking.destinationId);
+                    return `
+                        <div class="booking-item">
+                            <img src="${booking.destinationImage || destination?.image}" alt="${booking.destinationName}" class="booking-image">
+                            <div class="booking-info">
+                                <h4>${booking.destinationName}</h4>
+                                <p><i class="fas fa-calendar"></i> ${formatDate(booking.startDate)} - ${formatDate(booking.endDate)}</p>
+                                <p><i class="fas fa-users"></i> ${booking.travelers} Traveler(s)</p>
+                                <p><i class="fas fa-dollar-sign"></i> Total: $${booking.totalPrice}</p>
+                                ${booking.specialRequests ? `<p><i class="fas fa-sticky-note"></i> Special Requests: ${booking.specialRequests}</p>` : ''}
+                            </div>
+                            <div class="booking-status status-${booking.status}">
+                                ${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                            </div>
+                            <div class="booking-actions">
+                                <button class="btn btn-outline" onclick="viewBookingDetails(${booking.id})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-outline" onclick="cancelBooking(${booking.id})">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function updateStats() {
+            if (!currentUser) return;
+
+            const userBookingsList = userBookings.filter(booking => booking.userId === currentUser.id);
+            const upcomingTrips = userBookingsList.filter(booking => 
+                new Date(booking.startDate) > new Date() && booking.status === 'confirmed'
+            ).length;
+            
+            const visitedCountries = [...new Set(userBookingsList
+                .filter(booking => booking.status === 'confirmed')
+                .map(booking => booking.destinationCountry)
+            )].length;
+
+            const travelPoints = userBookingsList
+                .filter(booking => booking.status === 'confirmed')
+                .reduce((sum, booking) => sum + booking.totalPrice / 10, 0);
+
+            const pendingBookings = userBookingsList.filter(booking => 
+                booking.status === 'pending'
+            ).length;
+
+            document.getElementById('upcomingTrips').textContent = upcomingTrips;
+            document.getElementById('visitedCountries').textContent = visitedCountries;
+            document.getElementById('travelPoints').textContent = Math.floor(travelPoints);
+            document.getElementById('pendingBookings').textContent = pendingBookings;
+        }
+
+        function viewBookingDetails(bookingId) {
+            const booking = userBookings.find(b => b.id === bookingId);
+            if (booking) {
+                const destination = destinations.find(d => d.id === booking.destinationId);
+                alert(`Booking Details:\n
+Destination: ${booking.destinationName}\n
+Travelers: ${booking.travelers}\n
+Dates: ${formatDate(booking.startDate)} to ${formatDate(booking.endDate)}\n
+Total: $${booking.totalPrice}\n
+Status: ${booking.status}\n
+Booking Date: ${formatDate(booking.bookingDate)}\n
+${booking.specialRequests ? `Special Requests: ${booking.specialRequests}` : ''}`);
+            }
+        }
+
+        function cancelBooking(bookingId) {
+            if (confirm('Are you sure you want to cancel this booking?')) {
+                const bookingIndex = userBookings.findIndex(b => b.id === bookingId);
+                if (bookingIndex !== -1) {
+                    userBookings[bookingIndex].status = 'cancelled';
+                    localStorage.setItem('voyagerBookings', JSON.stringify(userBookings));
+                    loadUserBookings();
+                    updateStats();
+                    showAlert('Booking cancelled successfully.', 'success');
+                }
+            }
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert ${type}`;
+            alert.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            alertContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => {
+                    alert.remove();
+                }, 300);
+            }, 4000);
+        }
+
+        // Check for pending booking after login
+        function checkPendingBooking() {
+            const pendingBookingId = sessionStorage.getItem('pendingBooking');
+            if (pendingBookingId && currentUser) {
+                openBookingModal(parseInt(pendingBookingId));
+                sessionStorage.removeItem('pendingBooking');
+            }
+        }
+
+        // Override loginUser to check for pending bookings
+        const originalLoginUser = loginUser;
+        loginUser = function() {
+            originalLoginUser.apply(this, arguments);
+            setTimeout(checkPendingBooking, 100);
+        };
+
+        // Override registerUser to check for pending bookings
+        const originalRegisterUser = registerUser;
+        registerUser = function() {
+            originalRegisterUser.apply(this, arguments);
+            setTimeout(checkPendingBooking, 100);
+        };
+    </script>
+</body>
+</html>
